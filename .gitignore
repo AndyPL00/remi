@@ -1,0 +1,5 @@
+node_modules/
+# accounts, login sessions and profile pictures — never commit these
+data/
+.claude/
+*.log

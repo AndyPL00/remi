@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <title>Remi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login / first-time setup -->
+  <div id="login" class="screen center hidden">
+    <form class="card" id="loginForm" autocomplete="on">
+      <h1>Remi</h1>
+      <p class="sub" id="loginSub">Intră în cont</p>
+      <label>Nume de utilizator <input id="lUser" autocomplete="username" required></label>
+      <label id="lNameRow" class="hidden">Numele afișat <input id="lName" maxlength="20"></label>
+      <label>Parola <input id="lPass" type="password" autocomplete="current-password" required></label>
+      <button class="primary" id="loginBtn" type="submit">Intră</button>
+      <p class="error" id="loginError"></p>
+    </form>
+  </div>
+
+  <!-- Home -->
+  <div id="home" class="screen center hidden">
+    <div class="card">
+      <div class="profile-row">
+        <div id="homeAvatar"></div>
+        <div class="grow">
+          <div class="big" id="homeName"></div>
+          <div class="sub" id="homeUser"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button id="profileBtn">Editează profilul</button>
+        <button id="adminBtn" class="hidden">Conturi prieteni</button>
+        <button id="logoutBtn">Ieși din cont</button>
+      </div>
+      <hr>
+      <button id="createBtn" class="primary">Creează o cameră nouă</button>
+      <div class="or">sau intră într-o cameră existentă</div>
+      <div class="row">
+        <input id="codeInput" placeholder="COD" maxlength="5" autocomplete="off">
+        <button id="joinBtn">Intră</button>
+      </div>
+      <p id="homeError" class="error"></p>
+      <hr>
+      <h3>Clasament general</h3>
+      <div id="leaderboard" class="sub">Se încarcă…</div>
+    </div>
+  </div>
+
+  <!-- Waiting room -->
+  <div id="waiting" class="screen center hidden">
+    <div class="card">
+      <h2>Camera <span id="wCode" class="code"></span></h2>
+      <p class="sub">Trimite prietenilor linkul de mai jos:</p>
+      <div class="row">
+        <input id="shareLink" readonly>
+        <button id="copyBtn">Copiază</button>
+      </div>
+      <p id="shareNote" class="error hidden"></p>
+      <h3>Jucători</h3>
+      <div id="wPlayers"></div>
+      <button id="startBtn" class="primary">Pornește jocul</button>
+      <p id="wHint" class="sub"></p>
+      <button id="leaveBtn" class="link">Părăsește camera</button>
+    </div>
+  </div>
+
+  <!-- Game -->
+  <div id="game" class="screen hidden">
+    <header class="topbar">
+      <div class="brand">Remi</div>
+      <div class="chips">
+        <span class="chip">Camera <b id="gCode"></b></span>
+        <span class="chip">Runda <b id="gRound"></b></span>
+      </div>
+      <div class="topbar-actions">
+        <button id="logBtn" class="ghost">Jurnal</button>
+        <button id="gProfileBtn" class="ghost">Profil</button>
+        <button id="gLeaveBtn" class="ghost">Meniu</button>
+      </div>
+      <div id="logPanel" class="hidden"></div>
+    </header>
+
+    <main id="table">
+      <section class="seat" id="seatLeft"></section>
+      <section class="seat" id="seatTop"></section>
+      <section class="seat" id="seatRight"></section>
+
+      <!-- The discard chain runs along a wooden bar across the whole table -->
+      <section id="chainBar" class="wood">
+        <div id="discardChain"></div>
+        <div id="discardHint"></div>
+      </section>
+
+      <!-- Right below it: the atu and the draw pile -->
+      <section id="pileRow">
+        <div id="atuBox" title="Atu — piesa întoarsă"></div>
+        <button id="pile" title="Trage din grămadă">
+          <div class="tile back"></div>
+          <span id="pileCount"></span>
+        </button>
+        <!-- the tile you broke the chain at, waiting to be dragged onto your pair -->
+        <div id="heldBox" class="hidden"></div>
+        <div id="lastAction"></div>
+      </section>
+
+      <section class="seat me" id="seatMe"></section>
+    </main>
+
+    <footer id="tray">
+      <div id="trayBar">
+        <div id="turnTimer" class="hidden"></div>
+        <div id="status"></div>
+        <div id="rackInfo"></div>
+        <div class="rack-tools">
+          <span>Sortează:</span>
+          <button id="sortColor">Culori</button>
+          <button id="sortNum">Numere</button>
+        </div>
+        <button id="undoTakeBtn" class="ghost-dark">Pune înapoi</button>
+        <button id="layBtn" class="primary">Etalează</button>
+      </div>
+      <div id="rackRow">
+        <div id="rack" class="wood"></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal" class="hidden"><div class="card" id="modalCard"></div></div>
+  <div id="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="rules.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
